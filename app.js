@@ -9,11 +9,16 @@ require('./db');
 // https://www.npmjs.com/package/express
 const express = require('express');
 
+const bodyParser = require('body-parser')
+
 // Handles the handlebars
 // https://www.npmjs.com/package/hbs
 const hbs = require('hbs');
 
 const app = express();
+
+
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // ℹ️ This function is getting exported from the config folder. It runs most middlewares
 require('./config')(app);
