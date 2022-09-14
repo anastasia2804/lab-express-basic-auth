@@ -19,17 +19,18 @@ router.post("/signup", (req, res, next) => {
 
   const myHashedPassword = bcryptjs.hashSync(myPassword);
 
-User.create({
-  username: myUsername,
-  password: myHashedPassword
-})
-  .then (savedUser => {
-    res.send(savedUser)
+  User.create({
+    username: myUsername,
+    password: myHashedPassword
   })
-  .catch(err => {
-    console.log(err);
-    res.send(err);
-  })
+    .then (savedUser => {
+      res.send(savedUser)
+    })
+    .catch(err => {
+      console.log(err);
+      res.send(err);
+    })
+    
 })
 
 //GET login route
@@ -84,5 +85,16 @@ router.get('/profile', (req, res, next) => {
   }
   
 });
+
+
+//logout
+router.post('/logout', (req, res, next) => {
+  req.session.destroy(err => {
+    if (err) next(err);
+    res.redirect('/');
+  });
+});
+
+
 
 module.exports = router;
