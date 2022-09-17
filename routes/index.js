@@ -2,6 +2,8 @@ const router = require("express").Router();
 const User = require('../models/User.model');
 const bcryptjs = require('bcryptjs');
 
+const isAuthenticated = require('../middlewares/auth.middleware')
+
 /* GET home page */
 router.get("/", (req, res, next) => {
   res.render("index");
@@ -24,6 +26,7 @@ router.post("/signup", (req, res, next) => {
     password: myHashedPassword
   })
     .then (savedUser => {
+      console.log(savedUser)
       res.send(savedUser)
     })
     .catch(err => {
@@ -95,6 +98,11 @@ router.post('/logout', (req, res, next) => {
   });
 });
 
+router.get('/main', isAuthenticated, (req, res, next)=> {
+  res.render('main.hbs')
+})
 
-
+router.get('/private', isAuthenticated, (req,res,next) =>{
+  res.render('private.hbs')
+})
 module.exports = router;
